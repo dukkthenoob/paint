@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Paint</title>
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type='text/css'>
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+
+    <div class="tool-bar">
+        <div class="container">
+            <i class="fa fa-paint-brush" title="Brush"></i>
+            <i class="fa fa-eraser" title="Eraser"></i>
+            <i class="fa fa-pencil" title="Pencil"></i>
+            <i class="fa fa-eyedropper" title="Eye Dropper"></i>
+        </div>
+
+        <div class="container">
+            <input type="color">
+        </div>
+
+        <div id="tool-size" class="container">
+            <details open>
+                <summary>Size</summary>
+                    <ul>
+                        <li id="small">Small</li>
+                        <li id="medium">Medium</li>
+                        <li id="large">Large</li>
+                    </ul>
+            </details>
+        </div>
+    </div>
+    
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script type="text/javascript" src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,54 @@
+body{
+  margin: 0;
+  padding: 0;
+  background-color: #8bb8ed;
+}
+
+.tool-bar{
+  background-color: #99c8ff;
+  position: absolute;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -o-user-select: none;
+  user-select: none;
+}
+
+.container{
+  float: left;
+  position: relative;
+  height: 77px;
+  margin: 10px !important;
+  width: 100px;
+  border-right: 1px solid #7296c1;
+}
+
+.fa{
+  padding: 10px;
+  width: 1em;
+  margin: 1px -4px -1px 0px;
+}
+
+.fa:hover{
+  background-color: gray;
+  cursor: pointer;
+}
+
+input[type="color"]{
+  widows: 50px;
+  margin: 10px 0 0 15px;
+  height: 50px;
+}
+
+#tool-size ul{
+  list-style: none;
+  padding: 0px;
+  margin: 0px;
+}
+
+#tool-size li:hover, .size-active{
+  cursor: pointer;
+  background-color: #6687af;
+  border:1px solid;
+  border-radius: 2px;
+}
