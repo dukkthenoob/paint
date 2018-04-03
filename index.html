@@ -15,10 +15,7 @@
             <i class="fa fa-eraser" title="Eraser"></i>
             <i class="fa fa-pencil" title="Pencil"></i>
             <i class="fa fa-eyedropper" title="Eye Dropper"></i>
-        </div>
-
-        <div class="container">
-            <input type="color">
+            <p class="container-title">Tools</p>
         </div>
 
         <div id="tool-size" class="container">
@@ -30,12 +27,20 @@
                         <li id="large">Large</li>
                     </ul>
             </details>
+            <p class="container-title">Tool Size</p>
         </div>
 
         <div class="container">
-            
+            <input class="color-picker" type="color">
+            <p class="container-title">Color Picker</p>
         </div>
     </div>
+
+    <div id="canvas">
+        <canvas class="drawing-canvas" width="800" height="480"></canvas>
+    </div>
+
+    
     
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script type="text/javascript" src="script.js"></script>

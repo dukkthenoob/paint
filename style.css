@@ -5,29 +5,36 @@ body{
 }
 
 .tool-bar{
-  display: inline;
-  background-color: #99c8ff;
-  position: absolute;
-  -webkit-user-select: none;
-  -khtml-user-select: none;
-  -moz-user-select: none;
-  -o-user-select: none;
   user-select: none;
+  height: 100px;
+  background-color: #99c8ff;
+  border-bottom: 1px solid rgb(105, 104, 104);
+}
+
+.tool-bar .container-title{
+  user-select: none;
+  position: absolute;
+  bottom: -20px;
+  width: 80px;
+  text-align: center;
+  right:20px;
+  font:12px Arial;
+  color: #377fd1;
 }
 
 .container{
-  float: left;
   position: relative;
-  height: 77px;
-  margin: 10px !important;
+  margin: 10px 0 0 20px;
+  float: left;
+  height: 80px;
   width: 100px;
   border-right: 1px solid #7296c1;
 }
 
 .fa{
+  width: 1rem;
+  float: left;
   padding: 10px;
-  width: 1em;
-  margin: 1px -4px -1px 0px;
 }
 
 .fa:hover, .tool-active{
@@ -51,4 +58,15 @@ input[type="color"]{
   cursor: pointer;
   background-color: #83acdc;
   border-radius: 2px;
+}
+
+#canvas{
+  position: absolute;
+  margin: 5px 0 0 5px;
+  background-color: white;
+  cursor: pointer;
+}
+
+.drawing-canvas{
+  position: relative;
 }

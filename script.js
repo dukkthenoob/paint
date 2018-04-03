@@ -1,20 +1,24 @@
+var canvas, ctx, 
+    strokes=[], tools=[], size=[], points=[],
+    currentStroke=null;
 
-$(function(){
-    var size = $("#sizes");
-    var tools = $(".tool-bar").children().children();
+canvas = $(".drawing-canvas");
+ctx = canvas[0].getContext('2d');
 
-    size.on("click",function(e){
-        var target = $(e.target);
-        if (target.is("li")){
-            target.addClass("size-active").siblings().removeClass("size-active");
-        }
-    });
+tools.brush= $(".fa-paint-brush");
+tools.eraser=$(".fa-eraser");
+tools.pencil =$(".fa-pencil");
+tools.eyedropper=$(".fa-eyedropper");
 
-    tools.on("click",function(e){
-        var target = $(e.target);
-        if(target.is("i")){
-            target.addClass("tool-active").siblings().removeClass("tool-active");
-        }
-    });
+var color = $(".color-picker");
 
-});
+tools = {
+    x:0,
+    y:0,
+    color: color.value,
+    down: false,
+}
+
+size.small = $("#small");
+size.medium = $("#medium");
+size.large =$("#large");
