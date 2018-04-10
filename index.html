@@ -11,10 +11,10 @@
 
     <div class="tool-bar">
         <div class="container">
-            <i class="fa fa-paint-brush" title="Brush"></i>
-            <i class="fa fa-eraser" title="Eraser"></i>
-            <i class="fa fa-pencil" title="Pencil"></i>
-            <i class="fa fa-eyedropper" title="Eye Dropper"></i>
+            <i id="brush" class="fa fa-paint-brush tool-active" title="Brush"></i>
+            <i id="eraser" class="fa fa-eraser" title="Eraser"></i>
+            <i id="pencil" class="fa fa-pencil" title="Pencil"></i>
+            <i id="eye-dropper" class="fa fa-eyedropper" title="Eye Dropper"></i>
             <p class="container-title">Tools</p>
         </div>
 
@@ -34,6 +34,20 @@
             <input class="color-picker" type="color">
             <p class="container-title">Color Picker</p>
         </div>
+
+        <div class="container">
+            <p><label>Width</label>
+                <input type="number" id="canvas-width" min="0" value="800" >
+            </p>
+            <p><label>Height</label>
+                <input type="number" id="canvas-height" min="0" value="480" >
+            </p>
+        </div>
+
+        <div class="container">
+            <input type="button" value="Clear" id="clear-canvas" >
+        </div>
+
     </div>
 
     <div id="canvas">
