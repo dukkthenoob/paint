@@ -4,12 +4,14 @@ var canvas,
 var size=[],
     tools=[];
 
-var canvasWidth = $('#canvas-width');
-var canvasHeight = $('#canvas-height');
+
 var clearCanvas = $('#clear-canvas');
 
 canvas = $(".drawing-canvas");
 ctx = canvas[0].getContext('2d');
+
+var input_canvasWidth = $('#canvas-width'),
+    input_canvasHeight = $('#canvas-height');
 
 tools.brush= $("#brush");
 tools.pencil =$("#pencil");
@@ -34,24 +36,76 @@ function addAllHandlers(arr,className){
     }
 }
 
-clearCanvas.on('click',function(canvas){
+clearCanvas.click(function(canvas){
+    var ctxCanvasWidth = ctx.canvas.width,
+        ctxCanvasHeight = ctx.canvas.height;
+
+    ctx.clearRect(0,0,ctxCanvasWidth,ctxCanvasHeight);
+
+});
+
+function updateSize(width,height){
+    input_canvasHeight.val(height);
+    input_canvasWidth.val(width);
+}
+
+var width = window.innerWidth,
+    height = window.innerHeight;
+
+canvas[0].width = width;
+canvas[0].height = height;
+
+var canvasWidth = canvas[0].width,
+    canvasHeight = canvas[0].height;
+
+updateSize(width,height);
+
+window.addEventListener('resize', function(){
+    var image = ctx.getImageData(0,0,canvas[0].width,canvas[0].height)
+    width = window.innerWidth,
+    height = window.innerHeight;
+    canvas[0].width = width;
+    canvas[0].height = height;
     
-    canvas.width = canvas.width;
-    console.log('resized');
+    ctx.putImageData(image,0,0);
+    updateSize(width,height);
 });
 
 var canvasPosition;
 
-$ (function(){
-    canvasPosition = canvas[0].getBoundingClientRect();
+canvasPosition = canvas[0].getBoundingClientRect();
+
+canvas.mousedown(function(e){
+    this.down = true;
+    this.X = e.pageX - canvasPosition.left;
+    this.Y = e.pageY - canvasPosition.top;
 });
 
+canvas.mousemove(function(e){
+    if(this.down){
+        ctx.beginPath();
+        ctx.moveTo(this.X,this.Y);
+        ctx.lineCap = "round";
+        setRadius()
+        ctx.lineTo(e.pageX - canvasPosition.left,e.pageY - canvasPosition.top);
+        ctx.strokeStyle = color.val();
+        ctx.stroke();
+        ctx.closePath();
 
-var radius = 10;
+        this.X = e.pageX - canvasPosition.left;
+        this.Y = e.pageY - canvasPosition.top;
+    }   
+}).mouseup(function(){
+    this.down= false;
+});
 
-var setRadius = function(newRadius){
-    radius= newRadius;
-    ctx.lineWidth = radius * 2;
+var currentRadius= function(radVal){
+    return radVal;
+}
+
+var setRadius = function(thickness){
+    currentRadius(thickness);
+    ctx.lineWidth = thickness;
 }
 
 size.small.on('click', function(){
@@ -65,45 +119,3 @@ size.medium.on('click', function(){
 size.large.on('click', function(){
     setRadius(16);
 });
-
-setRadius(1);
-
-var down = false;
-
-var draw = function(e){
-
-    if(down){
-        ctx.lineTo(e.clientX - canvasPosition.left,e.clientY - canvasPosition.top);
-        ctx.lineCap = "round";
-        ctx.strokeStyle = color.val();
-        ctx.stroke();
-    }
-    
-}
-
-var mouseDown = 0;
-window.onmousedown = function() { 
-  ++mouseDown;
-}
-window.onmouseup = function() {
-  --mouseDown;
-}
-
-canvas.mousedown(function(e){
-    down = true;
-    draw(e);
-}).mouseover(function(e){
-    if(mouseDown) {
-      down = true;
-    }
-    ctx.beginPath();
-    draw(e);
-}).mouseout(function(e){
-    down =false;
-    ctx.beginPath();
-}).mousemove(draw).mouseup(function(){
-    down =false;
-    ctx.beginPath();
-});
-
-
