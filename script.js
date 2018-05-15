@@ -104,6 +104,7 @@ canvas.mousemove(function(e){
 			ctx.moveTo(this.X,this.Y);
 			ctx.lineCap = "round";
 			ctx.lineTo(e.pageX - canvasPosition.left,e.pageY - canvasPosition.top);
+			ctx.strokeStyle = "#ffffff"; //for now it will just remain white;
 			ctx.stroke();
 		}
         ctx.closePath();
@@ -116,7 +117,6 @@ tools.brush.on('click',function(){
 	brushisActive = true;
 });
 tools.eraser.on('click',function(){
-	ctx.strokeStyle = canvas.css('background-color').value;
 	eraserisActive = true;
 	brushisActive = false;
 });
