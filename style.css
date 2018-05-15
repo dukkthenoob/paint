@@ -77,6 +77,10 @@ label{
   border-radius: 2px;
 }
 
+#tool-size li:active, .size-active{
+	cursor: crosshair;
+}
+
 #canvas{
   float: left;
   background-color: white;

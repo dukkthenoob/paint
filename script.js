@@ -4,7 +4,6 @@ var canvas,
 var size=[],
     tools=[];
 
-
 var clearCanvas = $('#clear-canvas');
 
 canvas = $(".drawing-canvas");
@@ -18,9 +17,9 @@ tools.pencil =$("#pencil");
 tools.eraser=$("#eraser");
 tools.eyedropper = $("#eye-dropper");
 
-size.small = $("#small");
-size.medium = $("#medium");
-size.large =$("#large");
+size.small = $('ul #small');
+size.medium = $('ul #medium');
+size.large =$('ul #large');;
 
 var color = $(".color-picker");
 
@@ -41,7 +40,6 @@ clearCanvas.click(function(canvas){
         ctxCanvasHeight = ctx.canvas.height;
 
     ctx.clearRect(0,0,ctxCanvasWidth,ctxCanvasHeight);
-
 });
 
 function updateSize(width,height){
@@ -57,6 +55,10 @@ canvas[0].height = height;
 
 var canvasWidth = canvas[0].width,
     canvasHeight = canvas[0].height;
+	
+var small_Size = $('ul #small');
+var medium_Size = $('ul #medium');
+var large_Size= $('ul #large');
 
 updateSize(width,height);
 
@@ -66,13 +68,20 @@ window.addEventListener('resize', function(){
     height = window.innerHeight;
     canvas[0].width = width;
     canvas[0].height = height;
-    
+	
+    if (medium_Size.hasClass('size-active')){
+		setRadius(5);
+	}else if(large_Size.hasClass('size-active')){
+		setRadius(16);
+	}
+	
     ctx.putImageData(image,0,0);
     updateSize(width,height);
 });
 
 var canvasPosition;
-
+var brushisActive = true;
+var eraserisActive = false;
 canvasPosition = canvas[0].getBoundingClientRect();
 
 canvas.mousedown(function(e){
@@ -80,31 +89,43 @@ canvas.mousedown(function(e){
     this.X = e.pageX - canvasPosition.left;
     this.Y = e.pageY - canvasPosition.top;
 });
-
 canvas.mousemove(function(e){
     if(this.down){
         ctx.beginPath();
-        ctx.moveTo(this.X,this.Y);
-        ctx.lineCap = "round";
-        setRadius()
-        ctx.lineTo(e.pageX - canvasPosition.left,e.pageY - canvasPosition.top);
-        ctx.strokeStyle = color.val();
-        ctx.stroke();
+		if(brushisActive){
+			ctx.moveTo(this.X,this.Y);
+			ctx.lineCap = "round";
+			ctx.lineTo(e.pageX - canvasPosition.left,e.pageY - canvasPosition.top);
+			ctx.strokeStyle = color.val();
+			ctx.stroke();
+		}
+        else if(eraserisActive){
+			ctx.beginPath();
+			ctx.moveTo(this.X,this.Y);
+			ctx.lineCap = "round";
+			ctx.lineTo(e.pageX - canvasPosition.left,e.pageY - canvasPosition.top);
+			ctx.stroke();
+		}
         ctx.closePath();
 
         this.X = e.pageX - canvasPosition.left;
         this.Y = e.pageY - canvasPosition.top;
-    }   
+    }
+	
+tools.brush.on('click',function(){
+	brushisActive = true;
+});
+tools.eraser.on('click',function(){
+	ctx.strokeStyle = canvas.css('background-color').value;
+	eraserisActive = true;
+	brushisActive = false;
+});
+	
 }).mouseup(function(){
     this.down= false;
 });
 
-var currentRadius= function(radVal){
-    return radVal;
-}
-
 var setRadius = function(thickness){
-    currentRadius(thickness);
     ctx.lineWidth = thickness;
 }
 
