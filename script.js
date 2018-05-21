@@ -1,4 +1,4 @@
-var canvas, 
+var canvas,
     ctx;
 
 var size=[],
@@ -15,13 +15,14 @@ var input_canvasWidth = $('#canvas-width'),
 tools.brush= $("#brush");
 tools.pencil =$("#pencil");
 tools.eraser=$("#eraser");
-tools.eyedropper = $("#eye-dropper");
+tools.spraypaint = $("#spray-paint");
 
 size.small = $('ul #small');
 size.medium = $('ul #medium');
 size.large =$('ul #large');;
 
-var color = $(".color-picker");
+var brush_color = $(".color-picker"),
+    tool_size = 2;
 
 addAllHandlers(tools,'tool-active');
 addAllHandlers(size,'size-active');
@@ -55,12 +56,12 @@ canvas[0].height = height;
 
 var canvasWidth = canvas[0].width,
     canvasHeight = canvas[0].height;
-	
+
 var small_Size = $('ul #small');
 var medium_Size = $('ul #medium');
 var large_Size= $('ul #large');
 
-updateSize(width,height);
+updateSize(width, height);
 
 window.addEventListener('resize', function(){
     var image = ctx.getImageData(0,0,canvas[0].width,canvas[0].height)
@@ -68,75 +69,110 @@ window.addEventListener('resize', function(){
     height = window.innerHeight;
     canvas[0].width = width;
     canvas[0].height = height;
-	
-    if (medium_Size.hasClass('size-active')){
-		setRadius(5);
-	}else if(large_Size.hasClass('size-active')){
-		setRadius(16);
-	}
-	
+
     ctx.putImageData(image,0,0);
     updateSize(width,height);
 });
 
 var canvasPosition;
-var brushisActive = true;
-var eraserisActive = false;
+var eraser_size = 16;
+var brushisActive = true,
+    eraserisActive = false,
+    sprayIsActive = false;
+
 canvasPosition = canvas[0].getBoundingClientRect();
 
 canvas.mousedown(function(e){
     this.down = true;
     this.X = e.pageX - canvasPosition.left;
     this.Y = e.pageY - canvasPosition.top;
-});
-canvas.mousemove(function(e){
+})
+.mousemove(function (e) {
     if(this.down){
         ctx.beginPath();
-		if(brushisActive){
+        if (brushisActive) {
+			canvas.css('cursor', "url('spray-paint.png')");
+            ctx.globalCompositeOperation = "source-over";
 			ctx.moveTo(this.X,this.Y);
 			ctx.lineCap = "round";
+			ctx.lineWidth = tool_size;
 			ctx.lineTo(e.pageX - canvasPosition.left,e.pageY - canvasPosition.top);
-			ctx.strokeStyle = color.val();
+			ctx.strokeStyle = brush_color.val();
 			ctx.stroke();
 		}
         else if(eraserisActive){
-			ctx.beginPath();
-			ctx.moveTo(this.X,this.Y);
-			ctx.lineCap = "round";
+            ctx.globalCompositeOperation = "destination-out";
+            ctx.lineWidth = eraser_size;
+            ctx.moveTo(this.X, this.Y);
 			ctx.lineTo(e.pageX - canvasPosition.left,e.pageY - canvasPosition.top);
-			ctx.strokeStyle = "#ffffff"; //for now it will just remain white;
 			ctx.stroke();
-		}
+        }
         ctx.closePath();
 
         this.X = e.pageX - canvasPosition.left;
         this.Y = e.pageY - canvasPosition.top;
     }
-	
+
+}).mouseup(function () {
+    this.down = false;
+});
+
 tools.brush.on('click',function(){
-	brushisActive = true;
+    brushisActive = true;
+    eraserisActive = false;
 });
 tools.eraser.on('click',function(){
 	eraserisActive = true;
 	brushisActive = false;
 });
-	
-}).mouseup(function(){
-    this.down= false;
+tools.spraypaint.on('click', function () {
+    sprayIsActive = true;
+    eraserisActive = false;
+    brushisActive = false;
 });
 
-var setRadius = function(thickness){
-    ctx.lineWidth = thickness;
-}
-
 size.small.on('click', function(){
-    setRadius(1);
+    tool_size = 2;
+    select_brush_size.val(tool_size);
 });
 
 size.medium.on('click', function(){
-    setRadius(5);
+    tool_size = 5;
+    select_brush_size.val(tool_size);
 });
 
 size.large.on('click', function(){
-    setRadius(16);
+    tool_size = 16;
+    select_brush_size.val(tool_size);
+});
+
+var select_brush_size = $('#select_brush_size');
+var select_eraser_size = $('#select_eraser_size');
+
+select_eraser_size.on('change',function(){
+  var max_val = 100;
+  var previous_val;
+  if (select_eraser_size.val() > max_val || select_eraser_size.val() <= 0){
+    window.alert('Value cannot be greater than '+ max_val + ' or less than 0.');
+    previous_val = eraser_size;
+    select_eraser_size.val(previous_val);
+
+  }else {
+    previous_val = eraser_size;
+    eraser_size = select_eraser_size.val();
+  }
+});
+
+select_brush_size.on('change',function(){
+  var max_val = 100;
+  var previous_val;
+  if (select_brush_size.val() > max_val || select_brush_size.val() <= 0){
+    window.alert('Value cannot be greater than '+ max_val + ' or less than 0.');
+    previous_val = tool_size;
+    select_brush_size.val(previous_val);
+
+  }else {
+    previous_val = tool_size;
+    tool_size = select_brush_size.val();
+  }
 });

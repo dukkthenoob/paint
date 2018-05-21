@@ -13,8 +13,7 @@
         <div class="container">
             <i id="brush" class="fa fa-paint-brush tool-active" title="Brush"></i>
             <i id="eraser" class="fa fa-eraser" title="Eraser"></i>
-            <i id="pencil" class="fa fa-pencil" title="Pencil"></i>
-            <i id="eye-dropper" class="fa fa-eyedropper" title="Eye Dropper"></i>
+            <img src="spray-paint.png" alt="spray-paint" id="spray-paint" title="Spray Paint" />
             <p class="container-title">Tools</p>
         </div>
 
@@ -36,12 +35,11 @@
         </div>
 
         <div class="container">
-            <p><label>Width</label>
-                <input type="number" id="canvas-width" min="0" value="" >
-            </p>
-            <p><label>Height</label>
-                <input type="number" id="canvas-height" min="0" value="" >
-            </p>
+            <span id="brushspan">Brush</span>
+            <input id="select_brush_size" type="number" name="Brush Size" value="2">
+            <span id="eraserspan">Eraser</span>
+            <input id="select_eraser_size" type="number" name="Eraser Size" value="16">
+            <p class="container-title">Input Tool Size</p>
         </div>
 
         <div class="container">
@@ -54,8 +52,8 @@
         <canvas class="drawing-canvas"></canvas>
     </div>
 
-    
-    
+
+
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script type="text/javascript" src="script.js"></script>
 </body>
